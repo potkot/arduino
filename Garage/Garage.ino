@@ -3,7 +3,7 @@
 #include "RfidReader.h"
 //#include "IrRemoteController.h"
 //#include "Buttons165.h"
-//#include "ServoController.h"
+#include "ServoController.h"
 #include "SoundController.h"
 //#include "LedController.h"
 #include "App.h"
@@ -12,6 +12,8 @@ RfidReader rfid(RFID_SS_PIN, RFID_RST_PIN);
 
 
 SoundController sound(PIEZO_PIN);
+
+ServoController servos(SERVO1_PIN, SERVO2_PIN);
 
 //IrRemoteController remote(IR_PIN);
 
@@ -22,7 +24,7 @@ void setup() {
   //remote.begin();
   //buttons.begin();
 
-  //servos.begin();
+  servos.begin();
   sound.begin();
   //led.begin();
 
@@ -39,7 +41,7 @@ void loop() {
   processEvents();
 
   // Обновляем устройства
-  //servos.update();
+  servos.update();
   sound.update();
   //led.update();
 }
