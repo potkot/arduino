@@ -84,7 +84,7 @@ void SoundController::beep(
   uint16_t frequency,
   unsigned long durationMs) {
 
-  
+  remote.pause();
 
   tone(pin, frequency);
 
@@ -111,6 +111,8 @@ void SoundController::startNote() {
     return;
   }
 
+  remote.pause();
+
 
   if (melody[melodyIndex].frequency == 0) {
     noTone(pin);
@@ -129,7 +131,7 @@ void SoundController::startNote() {
 
 void SoundController::stop() {
   noTone(pin);
-
+  remote.resume();
   state = IDLE;
 }
 
