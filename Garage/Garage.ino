@@ -14,7 +14,7 @@
 RfidReader rfid(RFID_SS_PIN, RFID_RST_PIN);
 IrRemoteReader remote(IR_PIN);
 
-SoundController sound(PIEZO_PIN);
+SoundController sound(PIEZO_PIN, remote);
 ServoController servos(SERVO1_PIN, SERVO2_PIN);
 
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include "IrRemoteReader.h"
 
 class SoundController {
 public:
@@ -10,7 +11,9 @@ public:
     uint16_t duration;   //Длительность
   };
 
-  explicit SoundController(uint8_t pin);
+  explicit SoundController(
+    uint8_t pin,
+    IrRemoteReader& remote);
 
   void begin();
 
@@ -34,13 +37,15 @@ private:
 
   uint8_t pin;
 
+  IrRemoteReader& remote;  
+
   State state = IDLE;
 
-  unsigned long endAt = 0; //Это время, когда должен закончиться одиночный
+  unsigned long endAt = 0;  //Это время, когда должен закончиться одиночный
 
-  uint8_t melodyIndex = 0; //Это индекс текущей ноты мелодии
+  uint8_t melodyIndex = 0;  //Это индекс текущей ноты мелодии
 
-  unsigned long noteEndAt = 0; //Это время окончания текущей ноты.
+  unsigned long noteEndAt = 0;  //Это время окончания текущей ноты.
 
   static const Note melody[];
 

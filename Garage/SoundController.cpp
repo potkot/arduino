@@ -65,8 +65,11 @@ const uint8_t
   SoundController::melodyLength = sizeof(SoundController::melody) / sizeof(SoundController::melody[0]);
 
 
-SoundController::SoundController(uint8_t pin)
-  : pin(pin) {
+SoundController::SoundController(
+  uint8_t pin,
+  IrRemoteReader& remote)
+  : pin(pin),
+    remote(remote) {
 }
 
 
@@ -80,6 +83,8 @@ void SoundController::begin() {
 void SoundController::beep(
   uint16_t frequency,
   unsigned long durationMs) {
+
+  
 
   tone(pin, frequency);
 
@@ -126,7 +131,6 @@ void SoundController::stop() {
   noTone(pin);
 
   state = IDLE;
-
 }
 
 
