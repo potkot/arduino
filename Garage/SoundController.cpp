@@ -1,7 +1,5 @@
 #include "SoundController.h"
 
-#include <IRremote.hpp>
-
 
 const SoundController::Note
   SoundController::melody[] = {
@@ -82,7 +80,6 @@ void SoundController::begin() {
 void SoundController::beep(
   uint16_t frequency,
   unsigned long durationMs) {
-  IrReceiver.stopTimer();
 
   tone(pin, frequency);
 
@@ -93,7 +90,6 @@ void SoundController::beep(
 
 
 void SoundController::playMissionImpossible() {
-  IrReceiver.stopTimer();
 
   melodyIndex = 0;
 
@@ -131,7 +127,6 @@ void SoundController::stop() {
 
   state = IDLE;
 
-  IrReceiver.restartTimer();
 }
 
 

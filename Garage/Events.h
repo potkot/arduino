@@ -13,7 +13,9 @@ enum EventType : uint8_t
 
     // IR
     EVENT_IR_MUSIC,
-    EVENT_IR_SERVO,
+    EVENT_IR_SERVO_OPEN,
+    EVENT_IR_SERVO_CLOSE,
+    EVENT_IR_SERVO_STOP,
 
     // Buttons
     EVENT_BUTTON_1,

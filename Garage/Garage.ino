@@ -1,27 +1,28 @@
 #include "Config.h"
 #include "Events.h"
+
 #include "RfidReader.h"
-//#include "IrRemoteController.h"
+#include "IrRemoteReader.h"
 //#include "Buttons165.h"
+
 #include "ServoController.h"
 #include "SoundController.h"
 //#include "LedController.h"
+
 #include "App.h"
 
 RfidReader rfid(RFID_SS_PIN, RFID_RST_PIN);
-
+IrRemoteReader remote(IR_PIN);
 
 SoundController sound(PIEZO_PIN);
-
 ServoController servos(SERVO1_PIN, SERVO2_PIN);
 
-//IrRemoteController remote(IR_PIN);
 
 void setup() {
   Serial.begin(115200);
 
   rfid.begin();
-  //remote.begin();
+  remote.begin();
   //buttons.begin();
 
   servos.begin();
@@ -32,9 +33,10 @@ void setup() {
 }
 
 void loop() {
+
   // Получаем события от устройств
   rfid.update();
-  //remote.update();
+  remote.update();
   //buttons.update();
 
   // Обрабатываем события

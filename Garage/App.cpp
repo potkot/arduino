@@ -26,22 +26,30 @@ void processEvents() {
 
     switch (event.type) {
       case EVENT_ACCESS_GRANTED:
-        Serial.println("Get EVENT_ACCESS_GRANTED");
-
-        sound.playMissionImpossible();
-
         servos.open();
         closeAfterOpen = true;
         closeAt = millis() + 5000;
 
         break;
       case EVENT_ACCESS_DENIED:
-        Serial.println("Get EVENT_ACCESS_DENIED");
         sound.beep(1200, BEEP_TIME);
         break;
+      case EVENT_IR_MUSIC:
+        sound.playMissionImpossible();
+        break;
+      case EVENT_IR_SERVO_OPEN:
+        servos.open();
+        break;
+      case EVENT_IR_SERVO_CLOSE:
+        servos.close();
+        break;
+      case EVENT_IR_SERVO_STOP:
+        servos.stop();
+        break;
+
+
       case EVENT_NONE:
       default:
-        Serial.println("Not found event in app");
         break;
     }
   }

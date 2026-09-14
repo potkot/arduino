@@ -32,7 +32,9 @@ constexpr uint8_t BUTTON_COUNT = 8;
 
 // ИК комманды
 constexpr uint8_t IR_CMD_MUSIC = 0x16;
-constexpr uint8_t IR_CMD_SERVO = 0x1C;
+constexpr uint8_t IR_CMD_CLOSE = 0x8;
+constexpr uint8_t IR_CMD_OPEN = 0x5A;
+constexpr uint8_t IR_CMD_STOP = 0x52;
 
 // RFID карты
 constexpr uint8_t ACCESS_UID[] = { 0x43, 0xFE, 0x3F, 0x38 };
