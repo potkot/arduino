@@ -5,11 +5,11 @@
 
 #include "ServoController.h"
 #include "SoundController.h"
-//#include "LedController.h"
+#include "LedController.h"
 
 extern ServoController servos;
 extern SoundController sound;
-//extern LedController led;
+extern LedController led;
 
 
 //Метки для автоматического открытия
@@ -27,24 +27,31 @@ void processEvents() {
     switch (event.type) {
       case EVENT_ACCESS_GRANTED:
         servos.open();
+        led.setColorFor(LedController::GREEN, LED_ACCESS_TIME);
+        sound.playMissionImpossible();
+
         closeAfterOpen = true;
         closeAt = millis() + 5000;
 
         break;
       case EVENT_ACCESS_DENIED:
         sound.beep(1200, BEEP_TIME);
+        led.setColorFor(LedController::RED, LED_ACCESS_TIME);
         break;
       case EVENT_IR_MUSIC:
         sound.playMissionImpossible();
         break;
       case EVENT_IR_SERVO_OPEN:
         servos.open();
+        led.setColorFor(LedController::GREEN, LED_ACCESS_TIME);
         break;
       case EVENT_IR_SERVO_CLOSE:
         servos.close();
+        led.setColorFor(LedController::RED, LED_ACCESS_TIME);
         break;
       case EVENT_IR_SERVO_STOP:
         servos.stop();
+        led.off();
         break;
 
 

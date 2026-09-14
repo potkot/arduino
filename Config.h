@@ -49,7 +49,7 @@ constexpr unsigned long BUTTON_DEBOUNCE_TIME = 30;
 
 constexpr unsigned long SERVO_STEP_INTERVAL = 15;
 
-constexpr unsigned long LED_ACCESS_TIME = 1000;
+constexpr unsigned long LED_ACCESS_TIME = 2000;
 constexpr unsigned long LED_DENIED_TIME = 1000;
 constexpr unsigned long LED_MAXIM_TIME = 1000;
 
