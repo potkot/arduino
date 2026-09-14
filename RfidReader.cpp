@@ -47,17 +47,37 @@ void RfidReader::update() {
     return;
   }
 
+  Serial.print(F("RFID UID: { "));
+
+  for (byte i = 0; i < mfrc522.uid.size; i++) {
+    if (i > 0) {
+      Serial.print(F(", "));
+    }
+
+    if (mfrc522.uid.uidByte[i] < 0x10) {
+      Serial.print(F("0x0"));
+    } else {
+      Serial.print(F("0x"));
+    }
+
+    Serial.print(
+      mfrc522.uid.uidByte[i],
+      HEX);
+  }
+
+  Serial.println(F(" }"));
+
   if (uidEquals(
         mfrc522.uid.uidByte,
         mfrc522.uid.size,
         MAXIM_UID,
-        RFID_UID_SIZE)) {
+        sizeof(MAXIM_UID))) {
     emitEvent(EVENT_MAXIM_CARD);
   } else if (uidEquals(
                mfrc522.uid.uidByte,
                mfrc522.uid.size,
                ACCESS_UID,
-               RFID_UID_SIZE)) {
+               sizeof(ACCESS_UID))) {
     emitEvent(EVENT_ACCESS_GRANTED);
   } else {
     emitEvent(EVENT_ACCESS_DENIED);
