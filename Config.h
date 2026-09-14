@@ -6,10 +6,15 @@
 constexpr uint8_t RFID_RST_PIN = 4;
 constexpr uint8_t RFID_SS_PIN = 10;
 
-// RGB светодиод
+// Сдвиговый регистр
 constexpr uint8_t REGISTER_DATA_PIN = 6;
 constexpr uint8_t REGISTER_CLOCK_PIN = 3;
 constexpr uint8_t REGISTER_LATCH_PIN = 5;
+
+// RGB светодиод на сдвиговом регистре
+constexpr uint8_t REGISTER_LED_BLUE = 0;
+constexpr uint8_t REGISTER_LED_RED = 1;
+constexpr uint8_t REGISTER_LED_GREEN = 2;
 
 // Piezo пищалка
 constexpr uint8_t PIEZO_PIN = 8;
@@ -38,9 +43,8 @@ constexpr uint8_t IR_CMD_STOP = 0x52;
 
 // RFID карты
 constexpr uint8_t ACCESS_UID[] = { 0x43, 0xFE, 0x3F, 0x38 };
-constexpr uint8_t MAXIM_UID[] = { 0x34, 0xD7, 0xDF, 0xC1 };
+constexpr uint8_t MAXIM_UID[] = { 0x34, 0xD7, 0xDF, 0xC1, 0x91, 0x9F, 0x70 };
 
-constexpr uint8_t RFID_UID_SIZE = 4;
 
 // Тайминги
 

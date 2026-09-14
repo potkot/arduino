@@ -14,37 +14,42 @@
 RfidReader rfid(RFID_SS_PIN, RFID_RST_PIN);
 IrRemoteReader remote(IR_PIN);
 
+ShiftRegister shiftRegister(REGISTER_DATA_PIN, REGISTER_CLOCK_PIN, REGISTER_LATCH_PIN);
+
 SoundController sound(PIEZO_PIN, remote);
 ServoController servos(SERVO1_PIN, SERVO2_PIN);
-LedController led(REGISTER_DATA_PIN, REGISTER_CLOCK_PIN, REGISTER_LATCH_PIN);
+
+LedController led(shiftRegister, REGISTER_LED_RED, REGISTER_LED_GREEN, REGISTER_LED_BLUE);
 
 
 void setup() {
-    Serial.begin(115200);
+  Serial.begin(115200);
 
-    rfid.begin();
-    remote.begin();
-    //buttons.begin();
+  rfid.begin();
+  remote.begin();
+  //buttons.begin();
 
-    servos.begin();
-    sound.begin();
-    led.begin();
+  shiftRegister.begin();
 
-    Serial.println(F("Controller started"));
+  servos.begin();
+  sound.begin();
+  led.begin();
+
+  Serial.println(F("Controller started"));
 }
 
 void loop() {
 
-    // Получаем события от устройств
-    rfid.update();
-    remote.update();
-    //buttons.update();
+  // Получаем события от устройств
+  rfid.update();
+  remote.update();
+  //buttons.update();
 
-    // Обрабатываем события
-    processEvents();
+  // Обрабатываем события
+  processEvents();
 
-    // Обновляем устройства
-    servos.update();
-    sound.update();
-    led.update();
+  // Обновляем устройства
+  servos.update();
+  sound.update();
+  led.update();
 }

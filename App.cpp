@@ -28,11 +28,14 @@ void processEvents() {
       case EVENT_ACCESS_GRANTED:
         servos.open();
         led.setColorFor(LedController::GREEN, LED_ACCESS_TIME);
-        sound.playMissionImpossible();
 
         closeAfterOpen = true;
         closeAt = millis() + 5000;
 
+        break;
+      case EVENT_MAXIM_CARD:
+        led.setColorFor(LedController::BLUE, LED_ACCESS_TIME * 4);
+        sound.playMissionImpossible();
         break;
       case EVENT_ACCESS_DENIED:
         sound.beep(1200, BEEP_TIME);
@@ -66,7 +69,7 @@ void processEvents() {
 
     if ((long)(now - closeAt) >= 0) {
       servos.close();
-
+      led.setColorFor(LedController::RED, LED_ACCESS_TIME);
       closeAfterOpen = false;
     }
   }

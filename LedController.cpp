@@ -1,58 +1,36 @@
 #include "LedController.h"
 
 LedController::LedController(
-  uint8_t dataPin,
-  uint8_t clockPin,
-  uint8_t latchPin)
-  : dataPin(dataPin),
-    clockPin(clockPin),
-    latchPin(latchPin) {
+  ShiftRegister &shiftRegister,
+  uint8_t redBit,
+  uint8_t greenBit,
+  uint8_t blueBit)
+  : shiftRegister(shiftRegister),
+    redBit(redBit),
+    greenBit(greenBit),
+    blueBit(blueBit) {
 }
 
 void LedController::begin() {
-  pinMode(dataPin, OUTPUT);
-  pinMode(clockPin, OUTPUT);
-  pinMode(latchPin, OUTPUT);
-
   off();
 }
 
-void LedController::writeRegister() {
-
-  digitalWrite(latchPin, LOW);
-
-  Serial.print("dataPin: ");
-  Serial.println(dataPin);
-
-  Serial.print("clockPin: ");
-  Serial.println(clockPin);
-
-  Serial.print("latchPin: ");
-  Serial.println(latchPin);
-
-  shiftOut(
-    dataPin,
-    clockPin,
-    MSBFIRST,
-    registerState);
-
-  digitalWrite(latchPin, HIGH);
-}
-
 void LedController::writeColor(Color color) {
-  registerState = 0;
+  shiftRegister.setBit(redBit, false);
+  shiftRegister.setBit(greenBit, false);
+  shiftRegister.setBit(blueBit, false);
 
   switch (color) {
     case BLUE:
-      registerState |= (1 << 0);  // Q0
+      shiftRegister.setBit(blueBit, true);
       break;
 
     case RED:
-      registerState |= (1 << 1);  // Q1
+      shiftRegister.setBit(redBit, true);
       break;
 
     case GREEN:
-      registerState |= (1 << 2);  // Q2
+      shiftRegister.setBit(greenBit, true);
       break;
 
     case OFF:
@@ -60,7 +38,7 @@ void LedController::writeColor(Color color) {
       break;
   }
 
-  writeRegister();
+  shiftRegister.write();
 }
 
 void LedController::setColor(Color color) {
@@ -72,8 +50,6 @@ void LedController::setColor(Color color) {
 void LedController::setColorFor(
   Color color,
   unsigned long durationMs) {
-
-
   writeColor(color);
 
   timed = true;
