@@ -7,9 +7,9 @@ constexpr uint8_t RFID_RST_PIN = 4;
 constexpr uint8_t RFID_SS_PIN = 10;
 
 // RGB светодиод
-constexpr uint8_t LED_R_PIN = 3;
-constexpr uint8_t LED_G_PIN = 5;
-constexpr uint8_t LED_B_PIN = 6;
+constexpr uint8_t REGISTER_DATA_PIN = 6;
+constexpr uint8_t REGISTER_CLOCK_PIN = 3;
+constexpr uint8_t REGISTER_LATCH_PIN = 5;
 
 // Piezo пищалка
 constexpr uint8_t PIEZO_PIN = 8;

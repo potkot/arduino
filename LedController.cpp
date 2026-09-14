@@ -1,78 +1,98 @@
 #include "LedController.h"
 
 LedController::LedController(
-    uint8_t rPin,
-    uint8_t gPin,
-    uint8_t bPin
-)
-    : rPin(rPin),
-      gPin(gPin),
-      bPin(bPin)
-{
+  uint8_t dataPin,
+  uint8_t clockPin,
+  uint8_t latchPin)
+  : dataPin(dataPin),
+    clockPin(clockPin),
+    latchPin(latchPin) {
 }
 
-void LedController::begin()
-{
-    pinMode(rPin, OUTPUT);
-    pinMode(gPin, OUTPUT);
-    pinMode(bPin, OUTPUT);
+void LedController::begin() {
+  pinMode(dataPin, OUTPUT);
+  pinMode(clockPin, OUTPUT);
+  pinMode(latchPin, OUTPUT);
 
-    off();
+  off();
 }
 
-void LedController::writeColor(Color color)
-{
-    analogWrite(
-        rPin,
-        color == RED ? 255 : 0
-    );
+void LedController::writeRegister() {
 
-    analogWrite(
-        gPin,
-        color == GREEN ? 255 : 0
-    );
+  digitalWrite(latchPin, LOW);
 
-    analogWrite(
-        bPin,
-        color == BLUE ? 255 : 0
-    );
+  Serial.print("dataPin: ");
+  Serial.println(dataPin);
+
+  Serial.print("clockPin: ");
+  Serial.println(clockPin);
+
+  Serial.print("latchPin: ");
+  Serial.println(latchPin);
+
+  shiftOut(
+    dataPin,
+    clockPin,
+    MSBFIRST,
+    registerState);
+
+  digitalWrite(latchPin, HIGH);
 }
 
-void LedController::setColor(Color color)
-{
-    timed = false;
+void LedController::writeColor(Color color) {
+  registerState = 0;
 
-    writeColor(color);
+  switch (color) {
+    case BLUE:
+      registerState |= (1 << 0);  // Q0
+      break;
+
+    case RED:
+      registerState |= (1 << 1);  // Q1
+      break;
+
+    case GREEN:
+      registerState |= (1 << 2);  // Q2
+      break;
+
+    case OFF:
+    default:
+      break;
+  }
+
+  writeRegister();
+}
+
+void LedController::setColor(Color color) {
+  timed = false;
+
+  writeColor(color);
 }
 
 void LedController::setColorFor(
-    Color color,
-    unsigned long durationMs
-)
-{
-    writeColor(color);
+  Color color,
+  unsigned long durationMs) {
 
-    timed = true;
 
-    offAt = millis() + durationMs;
+  writeColor(color);
+
+  timed = true;
+
+  offAt = millis() + durationMs;
 }
 
-void LedController::off()
-{
-    timed = false;
+void LedController::off() {
+  timed = false;
 
-    writeColor(OFF);
+  writeColor(OFF);
 }
 
-void LedController::update()
-{
-    if (!timed)
-    {
-        return;
-    }
+void LedController::update() {
+  if (!timed) {
+    return;
+  }
 
-    if ((long)(millis() - offAt) >= 0)
-    {
-        off();
-    }
+  if ((long)(millis() - offAt) >= 0) {
+    off();
+  }
 }

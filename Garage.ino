@@ -16,7 +16,7 @@ IrRemoteReader remote(IR_PIN);
 
 SoundController sound(PIEZO_PIN, remote);
 ServoController servos(SERVO1_PIN, SERVO2_PIN);
-LedController led(LED_R_PIN, LED_G_PIN, LED_B_PIN);
+LedController led(REGISTER_DATA_PIN, REGISTER_CLOCK_PIN, REGISTER_LATCH_PIN);
 
 
 void setup() {

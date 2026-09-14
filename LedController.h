@@ -2,46 +2,45 @@
 
 #include <Arduino.h>
 
-class LedController
-{
+class LedController {
 public:
 
-    enum Color : uint8_t
-    {
-        OFF,
-        RED,
-        GREEN,
-        BLUE
-    };
+  enum Color : uint8_t {
+    OFF,
+    RED,
+    GREEN,
+    BLUE
+  };
 
-    LedController(
-        uint8_t rPin,
-        uint8_t gPin,
-        uint8_t bPin
-    );
+  LedController(
+    uint8_t dataPin,
+    uint8_t clockPin,
+    uint8_t latchPin);
 
-    void begin();
+  void begin();
 
-    void setColor(Color color);
+  void setColor(Color color);
 
-    void setColorFor(
-        Color color,
-        unsigned long durationMs
-    );
+  void setColorFor(
+    Color color,
+    unsigned long durationMs);
 
-    void off();
+  void off();
 
-    void update();
+  void update();
 
 private:
 
-    uint8_t rPin;
-    uint8_t gPin;
-    uint8_t bPin;
+  uint8_t dataPin;
+  uint8_t clockPin;
+  uint8_t latchPin;
 
-    bool timed = false;
+  uint8_t registerState = 0;
 
-    unsigned long offAt = 0;
+  bool timed = false;
 
-    void writeColor(Color color);
+  unsigned long offAt = 0;
+
+  void writeColor(Color color);
+  void writeRegister();
 };
